@@ -1,10 +1,6 @@
-"""This is the third version for the main display for the video game
-I have animated the background display to make it look like the cars are
-going forwards.
-I have also added the game title and icon."""
+"""This is an alternative way of doing main display version 3."""
 # imports and initialises pygame
 import pygame
-import time
 pygame.init()
 clock = pygame.time.Clock()
 
@@ -30,6 +26,10 @@ class Background(pygame.sprite.Sprite):
 # sets current state to running
 running = True
 
+# puts the different background frames in a list
+background_images = ['assets/background_1.png', 'assets/background_2.png',
+                     'assets/background_3.png', 'assets/background_4.png']
+bg_frame = 0
 
 while running:
     # checks if user clicked the close button
@@ -37,22 +37,12 @@ while running:
         if event.type == pygame.QUIT:
             running = False
 
-    # calls function to load background images in sequence to make animation
-    BackGround = Background('assets/background_1.png', [0, 0])
+    if bg_frame > 3:
+        bg_frame = 0
+    BackGround = Background(background_images[bg_frame], [0, 0])
     display.fill([255, 255, 255])
     display.blit(BackGround.image, BackGround.rect)
-    time.sleep(0.01)
-    BackGround = Background('assets/background_2.png', [0, 0])
-    display.fill([255, 255, 255])
-    display.blit(BackGround.image, BackGround.rect)
+    bg_frame += 1
     pygame.display.update()
-    time.sleep(0.01)
-    BackGround = Background('assets/background_3.png', [0, 0])
-    display.fill([255, 255, 255])
-    display.blit(BackGround.image, BackGround.rect)
-    pygame.display.update()
-    time.sleep(0.01)
-    BackGround = Background('assets/background_4.png', [0, 0])
-    display.fill([255, 255, 255])
-    display.blit(BackGround.image, BackGround.rect)
-    pygame.display.update()
+    # sets frames per second
+    clock.tick(64)
