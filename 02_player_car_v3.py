@@ -1,5 +1,5 @@
-"""This is version one opponent car. THis as opponent cars as obstacles for
-the player. This is built on top of 02_player_car_v3"""
+"""This is version three of player car. This adds borders so that the player
+cant move out of bounds."""
 # imports key presses
 from pygame.locals import (
     K_UP,
