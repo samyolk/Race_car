@@ -1,6 +1,4 @@
-"""This is version three opponent car. This adds seperate lanes the
-opponents can spawn in and checks to see that there is no car in the lane
-to prevent overlapping cars."""
+"""This is version one of player score. THis adds a player score system."""
 # imports key presses
 from pygame.locals import (
     K_UP,
@@ -15,6 +13,8 @@ import pygame
 import random
 pygame.init()
 clock = pygame.time.Clock()
+white = [255, 255, 255]
+black = [0, 0, 0]
 
 # list for background image frames
 background_images = ['assets/background_1.png', 'assets/background_2.png',
@@ -72,7 +72,7 @@ class Opponent(pygame.sprite.Sprite):
             )
         )
 
-        self.speed = random.uniform(1, 10)
+        self.speed = random.uniform(1, 20)
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the bottom of the screen
@@ -103,10 +103,14 @@ opp_x_pos = 0
 new_opp = 0
 opp_lanes = [0, 0, 0, 0, 0, 0]
 
-# sprite lists to store sprites
+# sprite groups to store sprites
 opp = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+# player score variable
+player_score = 0
+# sets the font
+font = pygame.font.Font('assets\Grand9kPixel.ttf', 16)
 
 
 while running:
@@ -194,6 +198,14 @@ while running:
         # If so, then remove the player and stop the loop
         player.kill()
         running = False
+
+    # displays score on top right corner
+    display_score = "SCORE: " + str(player_score)
+    text = font.render(display_score, True, white)
+    textRect = text.get_rect()
+    textRect.bottomright = (300, 25)
+    screen.blit(text, textRect)
+    player_score += 1
 
     bg_frame += 1
     pygame.display.update()

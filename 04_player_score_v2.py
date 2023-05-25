@@ -1,6 +1,4 @@
-"""This is version three opponent car. This adds seperate lanes the
-opponents can spawn in and checks to see that there is no car in the lane
-to prevent overlapping cars."""
+"""This is version two of player score. This adds a high score system."""
 # imports key presses
 from pygame.locals import (
     K_UP,
@@ -13,8 +11,11 @@ from pygame.locals import (
 # imports and initialises pygame
 import pygame
 import random
+import shelve
 pygame.init()
 clock = pygame.time.Clock()
+white = [255, 255, 255]
+black = [0, 0, 0]
 
 # list for background image frames
 background_images = ['assets/background_1.png', 'assets/background_2.png',
@@ -72,7 +73,7 @@ class Opponent(pygame.sprite.Sprite):
             )
         )
 
-        self.speed = random.uniform(1, 10)
+        self.speed = random.uniform(1, 20)
 
     # Move the sprite based on speed
     # Remove the sprite when it passes the bottom of the screen
@@ -103,10 +104,16 @@ opp_x_pos = 0
 new_opp = 0
 opp_lanes = [0, 0, 0, 0, 0, 0]
 
-# sprite lists to store sprites
+# sprite groups to store sprites
 opp = pygame.sprite.Group()
 all_sprites = pygame.sprite.Group()
 all_sprites.add(player)
+# player score variable
+player_score = 0
+high_score = shelve.open('assets\high_score.txt')
+highscore = high_score['high_score']
+# sets the font
+font = pygame.font.Font('assets\Grand9kPixel.ttf', 16)
 
 
 while running:
@@ -194,6 +201,22 @@ while running:
         # If so, then remove the player and stop the loop
         player.kill()
         running = False
+
+    display_score = "SCORE: " + str(player_score)
+    display_hiscore = "HISCORE: " + str(highscore)
+    text = font.render(display_score, True, white)
+    text_hi = font.render(display_hiscore, True, white)
+    textRect = text.get_rect()
+    text_hiRect = text_hi.get_rect()
+    textRect.bottomright = (295, 45)
+    text_hiRect.bottomright = (295, 25)
+    screen.blit(text, textRect)
+    screen.blit(text_hi, text_hiRect)
+    player_score += 1
+
+    if highscore <= player_score:
+        high_score['high_score'] = player_score
+        highscore = player_score
 
     bg_frame += 1
     pygame.display.update()
