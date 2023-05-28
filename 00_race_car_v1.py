@@ -121,6 +121,7 @@ title_font = pygame.font.Font('assets/Grand9kPixel.ttf', 32)
 menu_screen = True
 game_over = False
 
+# while loop for menu screen
 while menu_screen:
     pygame.event.get()
     if bg_frame > 3:
@@ -132,6 +133,7 @@ while menu_screen:
     player = PlayerCar([y_pos, x_pos])
     screen.blit(player.image, player.rect)
 
+    # displays title and instructions
     title = title_font.render("Pixel Car 2D", True, white)
     titleRect = title.get_rect()
     titleRect.center = (165, 100)
