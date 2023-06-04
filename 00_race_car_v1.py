@@ -123,9 +123,17 @@ game_over = False
 
 # while loop for menu screen
 while menu_screen:
-    pygame.event.get()
+    # checks if user clicked the close button
+    for event in pygame.event.get():
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                running = False
+                menu_screen = False
+        elif event.type == pygame.QUIT:
+            running = False
+            menu_screen = False
     if bg_frame > 3:
-        bg_frame = 0
+        bg_frame = 0 
     BackGround = Background(background_images[bg_frame], [0, 0])
     screen.fill([255, 255, 255])
     screen.blit(BackGround.image, BackGround.rect)
